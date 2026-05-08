@@ -385,3 +385,28 @@ void start_bms_reset() {
     }
   }
 }
+void manual_control_precharge_pin(bool value) {
+  if (!contactor_control_enabled) {
+    DEBUG_PRINTF("Contactor control is not enabled\n");
+    return;
+  }
+
+  auto prechargePin = esp32hal->PRECHARGE_PIN();
+  set(prechargePin, value);
+  DEBUG_PRINTF("Precharge pin manually set to %s\n", value ? "ON" : "OFF");
+}
+
+void manual_control_positive_pin(bool value) {
+  if (!contactor_control_enabled) {
+    DEBUG_PRINTF("Contactor control is not enabled\n");
+    return;
+  }
+
+  auto posPin = esp32hal->POSITIVE_CONTACTOR_PIN();
+  if (pwm_contactor_control) {
+    ledcWrite(posPin, value ? PWM_ON_DUTY : PWM_OFF_DUTY);
+  } else {
+    set(posPin, value);
+  }
+  DEBUG_PRINTF("Positive contactor pin manually set to %s\n", value ? "ON" : "OFF");
+}

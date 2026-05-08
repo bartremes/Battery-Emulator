@@ -576,6 +576,24 @@ void init_webserver() {
     }
   });
 
+  // Route for controlling Precharge Contactor Output Pin 1
+  update_string("/controlPrechargePin", [](String value) {
+    if (value == "true" || value == "1") {
+      manual_control_precharge_pin(true);
+    } else {
+      manual_control_precharge_pin(false);
+    }
+  });
+
+  // Route for controlling Positive Contactor Output Pin 2
+  update_string("/controlPositivePin", [](String value) {
+    if (value == "true" || value == "1") {
+      manual_control_positive_pin(true);
+    } else {
+      manual_control_positive_pin(false);
+    }
+  });
+
   // Route for editing SOC Calibration BYD
   update_string_setting("/editCalTargetSOC", [](String value) {
     datalayer_extended.bydAtto3.calibrationTargetSOC = static_cast<uint16_t>(value.toFloat());
@@ -1483,6 +1501,34 @@ String processor(const String& var) {
           "if(confirm('This action will attempt to close contactors and enable power transfer. Are you sure?')) { "
           "estop(false); }\""
           ">Close Contactors</button><br/>";
+    
+    // Add Precharge and Positive Contactor control buttons
+    content += "<br/><button style=\"background:orange;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Precharge Contactor Output Pin. Are you sure?')) { "
+          "controlPrechargePinOn(); }\""
+          ">Turn ON Precharge Pin</button>";
+    content += "<button style=\"background:darkorange;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Precharge Contactor Output Pin. Are you sure?')) { "
+          "controlPrechargePinOff(); }\""
+          ">Turn OFF Precharge Pin</button><br/>";
+    
+    content += "<button style=\"background:blue;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Positive Contactor Output Pin. Are you sure?')) { "
+          "controlPositivePinOn(); }\""
+          ">Turn ON Positive Pin</button>";
+    content += "<button style=\"background:darkblue;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Positive Contactor Output Pin. Are you sure?')) { "
+          "controlPositivePinOff(); }\""
+          ">Turn OFF Positive Pin</button><br/>";
+    
     content += "<script>";
     content += "function OTA() { window.location.href = '/update'; }";
     content += "function Cellmon() { window.location.href = '/cellmonitor'; }";
@@ -1511,6 +1557,30 @@ String processor(const String& var) {
         "var xhr=new "
         "XMLHttpRequest();xhr.onload=function() { "
         "window.location.reload();};xhr.open('GET','/equipmentStop?value='+stop,true);xhr.send();";
+    content += "}";
+    content += "function controlPrechargePinOn(){";
+    content +=
+        "var xhr=new "
+        "XMLHttpRequest();xhr.onload=function() { "
+        "alert('Precharge pin turned ON');};xhr.open('GET','/controlPrechargePin?value=true',true);xhr.send();";
+    content += "}";
+    content += "function controlPrechargePinOff(){";
+    content +=
+        "var xhr=new "
+        "XMLHttpRequest();xhr.onload=function() { "
+        "alert('Precharge pin turned OFF');};xhr.open('GET','/controlPrechargePin?value=false',true);xhr.send();";
+    content += "}";
+    content += "function controlPositivePinOn(){";
+    content +=
+        "var xhr=new "
+        "XMLHttpRequest();xhr.onload=function() { "
+        "alert('Positive pin turned ON');};xhr.open('GET','/controlPositivePin?value=true',true);xhr.send();";
+    content += "}";
+    content += "function controlPositivePinOff(){";
+    content +=
+        "var xhr=new "
+        "XMLHttpRequest();xhr.onload=function() { "
+        "alert('Positive pin turned OFF');};xhr.open('GET','/controlPositivePin?value=false',true);xhr.send();";
     content += "}";
     content += "</script>";
 

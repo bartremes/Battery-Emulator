@@ -70,4 +70,22 @@ void handle_contactors_battery2();
  */
 void handle_contactors_battery3();
 
+/**
+ * @brief Manually control the Precharge Contactor Output Pin
+ *
+ * @param[in] value - true to turn ON, false to turn OFF
+ *
+ * @return void
+ */
+void manual_control_precharge_pin(bool value);
+
+/**
+ * @brief Manually control the Positive Contactor Output Pin
+ *
+ * @param[in] value - true to turn ON, false to turn OFF
+ *
+ * @return void
+ */
+void manual_control_positive_pin(bool value);
+
 #endif
