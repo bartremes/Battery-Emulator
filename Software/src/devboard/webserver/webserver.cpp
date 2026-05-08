@@ -1502,32 +1502,32 @@ String processor(const String& var) {
           "estop(false); }\""
           ">Close Contactors</button><br/>";
     
-    // Add Precharge and Positive Contactor control buttons
-    content += "<br/><button style=\"background:orange;color:white;cursor:pointer;\""
+    // Add BMS 12v and Ignition control buttons
+    content += "<br/><button style=\"background:red;color:white;cursor:pointer;\""
           "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
           " onclick=\""
-          "if(confirm('This action will manually control the Precharge Contactor Output Pin. Are you sure?')) { "
-          "controlPrechargePinOn(); }\""
-          ">Turn ON Precharge Pin</button>";
-    content += "<button style=\"background:darkorange;color:white;cursor:pointer;\""
-          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
-          " onclick=\""
-          "if(confirm('This action will manually control the Precharge Contactor Output Pin. Are you sure?')) { "
-          "controlPrechargePinOff(); }\""
-          ">Turn OFF Precharge Pin</button><br/>";
-    
-    content += "<button style=\"background:blue;color:white;cursor:pointer;\""
-          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
-          " onclick=\""
-          "if(confirm('This action will manually control the Positive Contactor Output Pin. Are you sure?')) { "
+          "if(confirm('This action will manually control the BMS 12v Output Pin. Are you sure?')) { "
           "controlPositivePinOn(); }\""
-          ">Turn ON Positive Pin</button>";
-    content += "<button style=\"background:darkblue;color:white;cursor:pointer;\""
+          ">Turn ON BMS 12v</button>";
+    content += "<button style=\"background:darkred;color:white;cursor:pointer;\""
           "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
           " onclick=\""
-          "if(confirm('This action will manually control the Positive Contactor Output Pin. Are you sure?')) { "
+          "if(confirm('This action will manually control the BMS 12v Output Pin. Are you sure?')) { "
           "controlPositivePinOff(); }\""
-          ">Turn OFF Positive Pin</button><br/>";
+          ">Turn OFF BMS 12v</button><br/>";
+    
+    content += "<button style=\"background:green;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Ignition Output Pin. Are you sure?')) { "
+          "controlPrechargePinOn(); }\""
+          ">Turn ON Ignition</button>";
+    content += "<button style=\"background:darkgreen;color:white;cursor:pointer;\""
+          "20px;font-size:16px;font-weight:bold;cursor:pointer;border-radius:5px; margin:10px;"
+          " onclick=\""
+          "if(confirm('This action will manually control the Ignition Output Pin. Are you sure?')) { "
+          "controlPrechargePinOff(); }\""
+          ">Turn OFF Ignition</button><br/>";
     
     content += "<script>";
     content += "function OTA() { window.location.href = '/update'; }";
