@@ -126,6 +126,8 @@ const char* name_for_battery_type(BatteryType type) {
       return SamsungSdiLVBattery::Name;
     case BatteryType::SantaFePhev:
       return SantaFePhevBattery::Name;
+    case BatteryType::StellantisSmallWide4x4:
+      return StellantisSmallWide4x4Battery::Name;
     case BatteryType::SimpBms:
       return SimpBmsBattery::Name;
     case BatteryType::TeslaModel3Y:
@@ -247,6 +249,8 @@ Battery* create_battery(BatteryType type) {
       return new SantaFePhevBattery();
     case BatteryType::SimpBms:
       return new SimpBmsBattery();
+    case BatteryType::StellantisSmallWide4x4:
+      return new StellantisSmallWide4x4Battery();
     case BatteryType::TeslaModel3Y:
       return new TeslaModel3YBattery();
     case BatteryType::TeslaModelSX:
@@ -316,6 +320,9 @@ void setup_battery() {
         battery2 = new KiaHyundai64Battery(&datalayer.battery2, &datalayer_extended.KiaHyundai64_2,
                                            &datalayer.system.status.battery2_allowed_contactor_closing,
                                            can_config.battery_double);
+        break;
+      case BatteryType::MgHsPhev:
+        battery2 = new MgHsPHEVBattery(&datalayer.battery2, can_config.battery_double);
         break;
       case BatteryType::Pylon:
         battery2 = new PylonBattery(&datalayer.battery2, nullptr, can_config.battery_double);

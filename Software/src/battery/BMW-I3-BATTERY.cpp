@@ -34,7 +34,7 @@ void BmwI3Battery::end_balancing() {
   UserRequestBalancingMillis = 0;
   cmdState = SOC;
   battery_info_available = false;
-  datalayer_battery->status.bms_status = ACTIVE;
+  set_event(EVENT_BALANCING_END, 0);
 }
 
 void BmwI3Battery::update_values() {  //This function maps all the values fetched via CAN to the battery datalayer
@@ -49,7 +49,6 @@ void BmwI3Battery::update_values() {  //This function maps all the values fetche
   // so the safety check (EVENT_CAN_BATTERY_MISSING) does not trigger
   if (UserRequestBalancing == EXECUTING) {
     datalayer_battery->status.CAN_battery_still_alive = CAN_STILL_ALIVE;
-    datalayer_battery->status.bms_status = STANDBY;
   }
 
   // Map internal balancing state to datalayer balancing_status
@@ -333,7 +332,7 @@ void BmwI3Battery::transmit_can(unsigned long currentMillis) {
       BMW_13E_counter++;
       BMW_13E.data.u8[4] = BMW_13E_counter;
 
-      if (datalayer_battery->status.bms_status == FAULT) {
+      if (datalayer.system.status.system_status == FAULT) {
       } else if (allows_contactor_closing) {
         //If battery is not in Fault mode, and we are allowed to control contactors, we allow contactor to close by sending 10B
         *allows_contactor_closing = true;
@@ -568,8 +567,8 @@ void BmwI3Battery::setup(void) {  // Performs one time setup at startup
   strncpy(datalayer.system.info.battery_protocol, Name, 63);
   datalayer.system.info.battery_protocol[63] = '\0';
 
-  //Before we have started up and detected which battery is in use, use 60AH values
-  datalayer_battery->info.max_design_voltage_dV = MAX_PACK_VOLTAGE_60AH;
+  //Before we have started up and detected which battery is in use, use the widest limits
+  datalayer_battery->info.max_design_voltage_dV = MAX_PACK_VOLTAGE_120AH;
   datalayer_battery->info.min_design_voltage_dV = MIN_PACK_VOLTAGE_60AH;
   datalayer_battery->info.max_cell_voltage_deviation_mV = MAX_CELL_DEVIATION_MV;
 
